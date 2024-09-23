@@ -14,7 +14,7 @@ function App() {
     passwordRef.current?.select();
 
     // ---- There is also another way to select only a given range ----
-    passwordRef.current?.setSelectionRange(0, 20); // This will select only 20 characters
+    // passwordRef.current?.setSelectionRange(0, 20); // This will select only 20 characters
 
     // since this is react project we have access to window keyword. whereas in nextjs which is server side rendering there is no window keyword access
     window.navigator.clipboard.writeText(password);
