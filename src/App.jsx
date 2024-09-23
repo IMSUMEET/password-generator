@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -6,6 +6,19 @@ function App() {
   const [allowedNumbers, setAllowedNumbers] = useState(false);
   const [allowedCharacters, setAllowedCharacters] = useState(false);
   const [password, setPassword] = useState("");
+
+  const passwordRef = useRef(null);
+
+  const copyPasswordToClipboard = useCallback(() => {
+    // using passwordRef to select the text after copy Button is pressed
+    passwordRef.current?.select();
+
+    // ---- There is also another way to select only a given range ----
+    passwordRef.current?.setSelectionRange(0, 20); // This will select only 20 characters
+
+    // since this is react project we have access to window keyword. whereas in nextjs which is server side rendering there is no window keyword access
+    window.navigator.clipboard.writeText(password);
+  }, [password]);
 
   const generatePassword = useCallback(() => {
     let pass = "";
@@ -39,8 +52,12 @@ function App() {
             value={password}
             placeholder="Password"
             readOnly
+            ref={passwordRef}
           />
-          <button className="rounded-r-lg bg-blue-500 text-white px-3 py-2 cursor-pointer">
+          <button
+            className="rounded-r-lg bg-blue-500 text-white px-3 py-2 cursor-pointer"
+            onClick={copyPasswordToClipboard}
+          >
             copy
           </button>
         </div>
